@@ -15,8 +15,8 @@ send_telegram() {
     return 0
   fi
   curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-    -d chat_id="${TELEGRAM_CHAT_ID}" \
-    -d text="${message}" > /dev/null
+    --data-urlencode chat_id="${TELEGRAM_CHAT_ID}" \
+    --data-urlencode text="${message}" > /dev/null
 }
 
 # Allow standalone invocation: ./notify.sh "some message"

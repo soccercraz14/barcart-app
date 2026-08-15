@@ -134,6 +134,10 @@ export default function App() {
     });
   }, [cabinet, mocktailOnly]);
 
+  const visibleSuggestedRecipes = useMemo(() => {
+    return suggestedRecipes.filter((recipe) => !mocktailOnly || recipe.isMocktail);
+  }, [mocktailOnly]);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -179,7 +183,7 @@ export default function App() {
         />
       </View>
 
-      {suggestedRecipes.length > 0 && (
+      {visibleSuggestedRecipes.length > 0 && (
         <View style={styles.suggestedSection}>
           <Text style={styles.sectionTitle}>New This Week 🍸</Text>
           <ScrollView
@@ -187,7 +191,7 @@ export default function App() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.horizontalScrollContent}
           >
-            {suggestedRecipes.map((item) => (
+            {visibleSuggestedRecipes.map((item) => (
               <View key={item.id} style={styles.suggestedCard}>
                 <View style={styles.cardHeader}>
                   <Text style={styles.suggestedName}>{item.name}</Text>

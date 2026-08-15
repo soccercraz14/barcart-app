@@ -31,10 +31,13 @@ if git pull origin main && npm install && npx expo export --platform web; then
     LAST_MSG="$(git log -1 --pretty=%s)"
   fi
 
-  pm2 restart "$APP_NAME" 2>/dev/null || pm2 start "serve -s dist -l 3000" --name "$APP_NAME"
-  pm2 save
-
-  send_telegram "✅ BarCart deployed on bunnypi — ${LAST_MSG}"
+  if pm2 restart "$APP_NAME" 2>/dev/null || pm2 start serve --name "$APP_NAME" -- -s dist -l 3000; then
+    pm2 save
+    send_telegram "✅ BarCart deployed on bunnypi — ${LAST_MSG}"
+  else
+    send_telegram "❌ BarCart deploy FAILED on bunnypi — pm2 could not start/restart the app. Check logs on the Pi."
+    exit 1
+  fi
 else
   send_telegram "❌ BarCart deploy FAILED on bunnypi during git pull / npm install / expo export. Check logs on the Pi."
   exit 1
