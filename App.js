@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
+import suggestedRecipes from './data/suggestedRecipes.json';
 
 const BOTTLES = [
   { id: 'mionetto', name: 'Mionetto Sparkling (0%)' },
@@ -178,6 +179,32 @@ export default function App() {
         />
       </View>
 
+      {suggestedRecipes.length > 0 && (
+        <View style={styles.suggestedSection}>
+          <Text style={styles.sectionTitle}>New This Week 🍸</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.horizontalScrollContent}
+          >
+            {suggestedRecipes.map((item) => (
+              <View key={item.id} style={styles.suggestedCard}>
+                <View style={styles.cardHeader}>
+                  <Text style={styles.suggestedName}>{item.name}</Text>
+                  <View style={[styles.badge, item.isMocktail ? styles.badgeMocktail : styles.badgeCocktail]}>
+                    <Text style={styles.badgeText}>{item.isMocktail ? '0% ABV' : 'Cocktail'}</Text>
+                  </View>
+                </View>
+                {item.spec.map((line, index) => (
+                  <Text key={index} style={styles.bodyTextSmall}>• {line}</Text>
+                ))}
+                <Text style={styles.suggestedSource}>via {item.source}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      )}
+
       <View style={styles.feedSection}>
         <Text style={styles.sectionTitleLeft}>
           Matches Found ({availableRecipes.length})
@@ -254,4 +281,9 @@ const styles = StyleSheet.create({
   bodyText: { fontSize: 14, color: '#e4e4e7', marginTop: 3, lineHeight: 22 },
   emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 50, paddingHorizontal: 20 },
   emptyStateText: { color: '#71717a', textAlign: 'center', fontSize: 14, lineHeight: 22 },
+  suggestedSection: { marginTop: 20 },
+  suggestedCard: { backgroundColor: '#1a1a1e', borderRadius: 16, padding: 16, marginRight: 12, width: 240, borderWidth: 1, borderColor: '#3a2f14', borderStyle: 'dashed' },
+  suggestedName: { fontSize: 15, fontWeight: '700', color: '#ffffff', flex: 1, paddingRight: 8 },
+  bodyTextSmall: { fontSize: 12, color: '#d4d4d8', marginTop: 3, lineHeight: 18 },
+  suggestedSource: { fontSize: 10, color: '#71717a', marginTop: 10, fontStyle: 'italic' },
 });

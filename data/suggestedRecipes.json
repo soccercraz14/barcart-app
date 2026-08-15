@@ -1,0 +1,35 @@
+[
+  {
+    "id": "s1",
+    "name": "The Lychee Martini",
+    "isMocktail": false,
+    "ingredients": ["titos", "cointreau", "lychee_juice"],
+    "spec": [
+      "1.5 oz Tito's Handmade Vodka",
+      "0.5 oz Cointreau",
+      "1 oz 100% Lychee Juice",
+      "0.5 oz Fresh Lime Juice"
+    ],
+    "method": "Combine all ingredients in a cocktail shaker with ice. Shake vigorously for 10-12 seconds and double strain.",
+    "glassware": "Chilled martini or coupe glass, garnished with a lychee",
+    "source": "Adapted from Grey Goose's Lychee Martini",
+    "sourceUrl": "https://www.greygoose.com/cocktails/grey-goose-vodka/lychee-martini.html",
+    "dateAdded": "2026-08-15"
+  },
+  {
+    "id": "s2",
+    "name": "Sparkling Lychee Lagoon",
+    "isMocktail": true,
+    "ingredients": ["blue_curacao", "lychee_juice", "mionetto"],
+    "spec": [
+      "0.75 oz Blue Curaçao",
+      "1.5 oz 100% Lychee Juice",
+      "3 oz Mionetto Alcohol-Removed Sparkling Wine"
+    ],
+    "method": "Fill a glass with ice. Pour in the blue curaçao and lychee juice and stir to combine, then top with sparkling wine, stirring gently from the bottom to keep the color layered.",
+    "glassware": "Hurricane glass garnished with a lychee and lemon twist",
+    "source": "Inspired by the classic Blue Lagoon mocktail spec",
+    "sourceUrl": "https://savoredsips.com/blue-lagoon-mocktail/",
+    "dateAdded": "2026-08-15"
+  }
+]
