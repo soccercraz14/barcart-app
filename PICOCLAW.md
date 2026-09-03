@@ -4,12 +4,20 @@ You are running on `bunnypi` with shell + file access to `~/barcart-app`
 (this repo), a web-search tool, and a Telegram connection to Car.
 
 ## Repo map
-- `App.js` — the whole app. `BOTTLES` (top of file) is the cabinet
-  inventory; `RECIPES` is the live, curated recipe menu shown to users.
+- `App.js` — top-level screen: state, filtering logic, and composition of
+  the components below. `BOTTLES` and `RECIPES` are no longer here.
+- `data.js` — `BOTTLES` (the cabinet inventory) and `RECIPES` (the live,
+  curated recipe menu shown to users).
 - `data/suggestedRecipes.json` — a holding area for recipe ideas you find
   that are NOT yet on the live menu. Same shape as a `RECIPES` entry, plus
   `source` and `sourceUrl` and `dateAdded`. Rendered in the app as a
   "New This Week" strip.
+- `components/` — `RecipeCard.js` (compact tappable card), `RecipeDetailModal.js`
+  (full spec/method/glassware shown on tap), `BottlePicker.js` (cabinet
+  toggle pills). Edit these only if the ask is about layout/presentation,
+  not recipe content.
+- `usePersistedPrefs.js` — persists the user's cabinet selection and
+  mocktail-only toggle to AsyncStorage. Not relevant to recipe edits.
 - `scripts/deploy.sh` — pulls latest `main`, rebuilds the web export, and
   restarts the app under PM2. Run this after ANY change that should go
   live on `http://192.168.1.182:3000`.
@@ -34,7 +42,7 @@ Trigger: once a week (check whether it's been ~6+ days since the newest
 `dateAdded` in `data/suggestedRecipes.json`; don't run more than once a
 week).
 
-1. Read the current `BOTTLES` list in `App.js` for available ingredients
+1. Read the current `BOTTLES` list in `data.js` for available ingredients
    (currently: Mionetto Sparkling 0%, Tito's Vodka, Blue Curaçao,
    St-Germain, Cointreau, Orange Bitters, 100% Lychee Juice — but always
    re-read the file, this list will change over time).
@@ -59,7 +67,7 @@ week).
    on the real menu, or 'skip' to ignore."
 7. If Car replies to promote a suggestion, follow the normal chat-based
    edit flow above: move that entry from `suggestedRecipes.json` into
-   `RECIPES` in `App.js` (give it a normal numeric `id`), remove it from
+   `RECIPES` in `data.js` (give it a normal numeric `id`), remove it from
    `suggestedRecipes.json`, summarize, wait for confirmation, then commit
    + push + deploy.
 
