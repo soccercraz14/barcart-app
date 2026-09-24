@@ -11,6 +11,15 @@ You are running on `bunnypi` with shell + file access to `~/barcart-app`
   EVERY cabinet bottle its `spec` uses, or Mocktail Mode will be wrong.
   When adding a new bottle to `BOTTLES`, set `alcoholic` correctly
   (liqueurs and bitters count as alcoholic).
+- `components/DrinkArt.js` + `lib/drinkLook.js` — every recipe's picture is
+  drawn automatically from the recipe itself; there are no image files to
+  add. To get a good picture, write recipes the way the existing ones are:
+  spec lines with amounts (`1.5 oz ...`, `2 dashes ...`, `Top with ...`),
+  a method that says whether it's served over ice, and a `glassware` line
+  naming the glass (coupe, martini, flute, wine glass, rocks, highball/
+  Collins, hurricane) and garnish (lemon/lime wheel, orange peel, lemon
+  twist, mint, cherry, lychee). A new ingredient with a strong color
+  should get an entry in `INGREDIENT_LOOKS` in `lib/drinkLook.js`.
 - `data/suggestedRecipes.json` — a holding area for recipe ideas you find
   that are NOT yet on the live menu. Same shape as a `RECIPES` entry, plus
   `source` and `sourceUrl` and `dateAdded`. Rendered in the app as a

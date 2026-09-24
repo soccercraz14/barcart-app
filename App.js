@@ -12,6 +12,7 @@ import {
 import { SafeAreaProvider, SafeAreaView, initialWindowMetrics } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import suggestedRecipes from './data/suggestedRecipes.json';
+import DrinkArt from './components/DrinkArt';
 
 // `alcoholic` drives Mocktail Mode — a recipe is a mocktail only if none of its
 // ingredients are alcoholic, so there's no hand-set flag to get out of sync.
@@ -228,6 +229,7 @@ function BarCart() {
           >
             {visibleSuggestedRecipes.map((item) => (
               <View key={item.id} style={styles.suggestedCard}>
+                <DrinkArt recipe={item} height={120} style={styles.suggestedArt} />
                 <View style={styles.cardHeader}>
                   <Text style={styles.suggestedName}>{item.name}</Text>
                   <MocktailBadge recipe={item} />
@@ -271,6 +273,7 @@ function BarCart() {
         }
         renderItem={({ item }) => (
           <View style={styles.recipeCard}>
+            <DrinkArt recipe={item} height={170} style={styles.recipeArt} />
             <View style={styles.cardHeader}>
               <Text style={styles.recipeName}>{item.name}</Text>
               <MocktailBadge recipe={item} />
@@ -314,7 +317,9 @@ const styles = StyleSheet.create({
   pillText: { fontSize: 12, fontWeight: '600' },
   pillTextActive: { color: '#09090b' },
   pillTextInactive: { color: '#a1a1aa' },
-  recipeCard: { backgroundColor: '#1a1a1e', borderRadius: 16, padding: 18, marginBottom: 14, marginHorizontal: 24, borderWidth: 1, borderColor: '#26262b' },
+  recipeCard: { backgroundColor: '#1a1a1e', borderRadius: 16, padding: 18, overflow: 'hidden', marginBottom: 14, marginHorizontal: 24, borderWidth: 1, borderColor: '#26262b' },
+  recipeArt: { marginTop: -18, marginHorizontal: -18, marginBottom: 14 },
+  suggestedArt: { marginTop: -16, marginHorizontal: -16, marginBottom: 12 },
   cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 },
   recipeName: { fontSize: 18, fontWeight: '700', color: '#ffffff', flex: 1, paddingRight: 12 },
   badge: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
@@ -326,7 +331,7 @@ const styles = StyleSheet.create({
   emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 50, paddingHorizontal: 20 },
   emptyStateText: { color: '#71717a', textAlign: 'center', fontSize: 14, lineHeight: 22 },
   suggestedSection: { marginTop: 20 },
-  suggestedCard: { backgroundColor: '#1a1a1e', borderRadius: 16, padding: 16, width: 240, borderWidth: 1, borderColor: '#3a2f14', borderStyle: 'dashed' },
+  suggestedCard: { backgroundColor: '#1a1a1e', borderRadius: 16, padding: 16, overflow: 'hidden', width: 240, borderWidth: 1, borderColor: '#3a2f14', borderStyle: 'dashed' },
   suggestedName: { fontSize: 15, fontWeight: '700', color: '#ffffff', flex: 1, paddingRight: 8 },
   bodyTextSmall: { fontSize: 12, color: '#d4d4d8', marginTop: 3, lineHeight: 18 },
   suggestedSource: { fontSize: 10, color: '#71717a', marginTop: 10, fontStyle: 'italic' },
