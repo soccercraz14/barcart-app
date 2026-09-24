@@ -2,7 +2,6 @@
   {
     "id": "s1",
     "name": "The Lychee Martini",
-    "isMocktail": false,
     "ingredients": ["titos", "cointreau", "lychee_juice"],
     "spec": [
       "1.5 oz Tito's Handmade Vodka",
@@ -19,7 +18,6 @@
   {
     "id": "s2",
     "name": "Sparkling Lychee Lagoon",
-    "isMocktail": true,
     "ingredients": ["blue_curacao", "lychee_juice", "mionetto"],
     "spec": [
       "0.75 oz Blue Curaçao",
