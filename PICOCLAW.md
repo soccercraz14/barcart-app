@@ -6,6 +6,20 @@ You are running on `bunnypi` with shell + file access to `~/barcart-app`
 ## Repo map
 - `App.js` — the whole app. `BOTTLES` (top of file) is the cabinet
   inventory; `RECIPES` is the live, curated recipe menu shown to users.
+  There is no `isMocktail` field: the app works it out from each bottle's
+  `alcoholic` flag. A recipe's `ingredients` array must therefore list
+  EVERY cabinet bottle its `spec` uses, or Mocktail Mode will be wrong.
+  When adding a new bottle to `BOTTLES`, set `alcoholic` correctly
+  (liqueurs and bitters count as alcoholic).
+- `components/DrinkArt.js` + `lib/drinkLook.js` — every recipe's picture is
+  drawn automatically from the recipe itself; there are no image files to
+  add. To get a good picture, write recipes the way the existing ones are:
+  spec lines with amounts (`1.5 oz ...`, `2 dashes ...`, `Top with ...`),
+  a method that says whether it's served over ice, and a `glassware` line
+  naming the glass (coupe, martini, flute, wine glass, rocks, highball/
+  Collins, hurricane) and garnish (lemon/lime wheel, orange peel, lemon
+  twist, mint, cherry, lychee). A new ingredient with a strong color
+  should get an entry in `INGREDIENT_LOOKS` in `lib/drinkLook.js`.
 - `data/suggestedRecipes.json` — a holding area for recipe ideas you find
   that are NOT yet on the live menu. Same shape as a `RECIPES` entry, plus
   `source` and `sourceUrl` and `dateAdded`. Rendered in the app as a
@@ -13,6 +27,9 @@ You are running on `bunnypi` with shell + file access to `~/barcart-app`
 - `scripts/deploy.sh` — pulls latest `main`, rebuilds the web export, and
   restarts the app under PM2. Run this after ANY change that should go
   live on `http://192.168.1.182:3000`.
+- `scripts/uptime-check.sh` — daily cron watchdog. Alerts Car if the site
+  is down, or if `data/suggestedRecipes.json` hasn't had a new entry in
+  8+ days (i.e. the weekly suggestion job below didn't run).
 - `scripts/notify.sh` — sends a Telegram message to Car (`send_telegram`
   function, reads `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` from `.env`).
 

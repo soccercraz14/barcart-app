@@ -8,6 +8,8 @@
 #
 # Only sends a Telegram message when the check fails — a healthy site stays
 # quiet, so you're not getting a "still up" ping every day.
+#
+# Also alerts if the weekly recipe suggestions have gone stale (see below).
 
 set -uo pipefail
 
@@ -20,4 +22,23 @@ HTTP_CODE="$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "$APP_URL")"
 
 if [ "$HTTP_CODE" != "200" ]; then
   send_telegram "⚠️ BarCart uptime check failed on bunnypi — ${APP_URL} returned HTTP ${HTTP_CODE:-no response}. Check pm2 status on the Pi."
+fi
+
+# Weekly recipe suggestions (see PICOCLAW.md) — alert if PicoClaw hasn't added
+# any in over a week, so a stalled job doesn't go unnoticed.
+STALE_DAYS=8
+SUGGESTIONS_FILE="$SCRIPT_DIR/../data/suggestedRecipes.json"
+NEWEST="$(node -e '
+  const list = require(process.argv[1]);
+  const dates = list.map((r) => r.dateAdded).filter(Boolean).sort();
+  console.log(dates.length ? dates[dates.length - 1] : "");
+' "$SUGGESTIONS_FILE" 2>/dev/null)"
+
+if [ -z "$NEWEST" ]; then
+  send_telegram "⚠️ BarCart has no dated recipe suggestions — PicoClaw's weekly suggestion job may not be running."
+else
+  AGE_DAYS=$(( ( $(date +%s) - $(date -d "$NEWEST" +%s) ) / 86400 ))
+  if [ "$AGE_DAYS" -ge "$STALE_DAYS" ]; then
+    send_telegram "⚠️ BarCart's newest recipe suggestion is ${AGE_DAYS} days old (${NEWEST}) — PicoClaw's weekly suggestion job hasn't run. Check its schedule on bunnypi."
+  fi
 fi
